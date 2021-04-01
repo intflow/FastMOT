@@ -164,3 +164,6 @@ VOCdevkit/
 
 # vscode stuff
 .vscode/
+
+# lib
+llvm-7.0.1.src/

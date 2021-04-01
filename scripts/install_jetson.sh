@@ -1,20 +1,30 @@
 #!/bin/bash
 
+export PATH="/usr/local/cuda-10.2/bin:$PATH"
+export LD_LIBRARY_PATH="/usr/local/cuda-10.2/lib64:$LD_LIBRARY_PATH"
+
+sudo pip3 install --global-option=build_ext --global-option="-I/usr/local/cuda-10.2/include" --global-option="-L/usr/local/cuda-10.2/lib64" pycuda
+
 # Jetpack 4.4 (OpenCV, CUDA, TensorRT) is required before running this script
 DIR=$HOME
 
 set -e
 
 # set up environment variables
-echo 'export PATH=/usr/local/cuda/bin${PATH:+:${PATH}}' >> ~/.bashrc 
-echo 'export LD_LIBRARY_PATH=/usr/local/cuda/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}' >> ~/.bashrc 
+echo 'export PATH=/usr/local/cuda-10.2/bin${PATH:+:${PATH}}' >> ~/.bashrc 
+echo 'export LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}' >> ~/.bashrc 
 source ~/.bashrc
 
 # install pip, numpy, pycuda, tensorflow, cython-bbox
 sudo apt-get update
 sudo apt-get install python3-pip libhdf5-serial-dev hdf5-tools libcanberra-gtk-module
 sudo -H pip3 install cython
-sudo -H pip3 install numpy pycuda cython-bbox
+sudo -H pip3 install numpy cython-bbox
+
+sudo apt-get install libhdf5-dev
+# sudo -H pip3 install cython3
+sudo -H pip3 install h5py==2.10.0
+
 sudo -H pip3 install --no-cache-dir --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v44 tensorflow==1.15.2+nv20.4
 
 # install scipy
